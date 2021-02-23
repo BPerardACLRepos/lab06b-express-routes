@@ -9,53 +9,82 @@ const client = require('../lib/client');
 describe('app routes', () => {
   describe('routes', () => {
     let token;
-  
+
     beforeAll(async done => {
       execSync('npm run setup-db');
-  
+
       client.connect();
-  
+
       const signInData = await fakeRequest(app)
         .post('/auth/signup')
         .send({
           email: 'jon@user.com',
           password: '1234'
         });
-      
+
       token = signInData.body.token; // eslint-disable-line
-  
+
       return done();
     });
-  
+
     afterAll(done => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
+    test('returns board_games', async () => {
 
       const expectation = [
         {
-          'id': 1,
-          'name': 'bessie',
-          'coolfactor': 3,
-          'owner_id': 1
+          name: 'Rummikub',
+          max_players: 4,
+          min_players: 2,
+          expansion: false,
+          category: 'tile',
+          owner_id: 1,
+          id: 1,
         },
         {
-          'id': 2,
-          'name': 'jumpy',
-          'coolfactor': 4,
-          'owner_id': 1
+          name: 'Catan: Seafarers',
+          max_players: 4,
+          min_players: 3,
+          expansion: true,
+          category: 'trading',
+          owner_id: 1,
+          id: 2,
         },
         {
-          'id': 3,
-          'name': 'spot',
-          'coolfactor': 10,
-          'owner_id': 1
-        }
+          name: 'Codenames',
+          max_players: 8,
+          min_players: 2,
+          expansion: false,
+          category: 'word',
+          owner_id: 1,
+          id: 3,
+        },
       ];
 
       const data = await fakeRequest(app)
-        .get('/animals')
+        .get('/board_games')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+    test('returns board_games item with matching id', async () => {
+
+      const expectation = {
+        name: 'Codenames',
+        max_players: 8,
+        min_players: 2,
+        expansion: false,
+        category: 'word',
+        owner_id: 1,
+        id: 3,
+      }
+
+      const data = await fakeRequest(app)
+        .get('/board_games/3')
         .expect('Content-Type', /json/)
         .expect(200);
 
