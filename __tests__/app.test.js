@@ -110,5 +110,40 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
     });
+
+    test('post item to board_games', async () => {
+
+      const addedGame = {
+        name: 'Codenames',
+        max_players: 8,
+        min_players: 2,
+        expansion: false,
+        category: 'word',
+      };
+
+      const expectation = {
+        ...addedGame,
+        owner_id: 1,
+        id: 4,
+      };
+
+      const data = await fakeRequest(app)
+        .post('/board_games')
+        .send(addedGame)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+
+      const storedGames = await fakeRequest(app)
+        .get('/board_games')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      const newGame = storedGames.body.find(game => game.name === addedGame.name);
+
+      expect(newGame).toEqual(expectation);
+    });
+
   });
 });
