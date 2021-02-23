@@ -145,5 +145,35 @@ describe('app routes', () => {
       expect(newGame).toEqual(expectation);
     });
 
+    test('updates board_games item with matching id', async () => {
+
+      const updatedGame = {
+        name: 'Duck Duck Goose',
+        max_players: 42,
+        min_players: 3,
+        expansion: false,
+        category: 'trickery',
+      };
+
+      const expectation = {
+        ...updatedGame,
+        owner_id: 1,
+        id: 2
+      };
+
+      await fakeRequest(app)
+        .put('/board_games/2')
+        .send(updatedGame)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      const data = await fakeRequest(app)
+        .get('/board_games/2')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
   });
 });
