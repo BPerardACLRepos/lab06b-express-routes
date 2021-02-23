@@ -90,5 +90,25 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
     });
+
+    test('delete board_games item with matching id', async () => {
+
+      const expectation = {
+        name: 'Codenames',
+        max_players: 8,
+        min_players: 2,
+        expansion: false,
+        category: 'word',
+        owner_id: 1,
+        id: 3,
+      }
+
+      const data = await fakeRequest(app)
+        .delete('/board_games/3')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
   });
 });
