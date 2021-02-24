@@ -123,7 +123,6 @@ describe('app routes', () => {
         min_players: 2,
         expansion: false,
         category_id: 3,
-        category: 'word',
       };
 
       const expectation = {
@@ -140,6 +139,13 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
 
+      const expectationTwo = {
+        ...addedGame,
+        owner_id: 1,
+        id: 4,
+        category: 'word',
+      };
+
       const storedGames = await fakeRequest(app)
         .get('/board_games')
         .expect('Content-Type', /json/)
@@ -147,7 +153,7 @@ describe('app routes', () => {
 
       const newGame = storedGames.body.find(game => game.name === addedGame.name);
 
-      expect(newGame).toEqual(expectation);
+      expect(newGame).toEqual(expectationTwo);
     });
 
     test('updates board_games item with matching id', async () => {
