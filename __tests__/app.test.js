@@ -152,7 +152,7 @@ describe('app routes', () => {
         max_players: 42,
         min_players: 3,
         expansion: false,
-        category: 7,
+        category_id: 7,
       };
 
       const expectation = {
