@@ -1,6 +1,6 @@
 const client = require('../lib/client');
-// import our seed data:
-const animals = require('./animals.js');
+const board_games = require('./board-games.js');
+const categories = require('./categories.js');
 const usersData = require('./users.js');
 const { getEmoji } = require('../lib/emoji.js');
 
@@ -18,30 +18,40 @@ async function run() {
                       VALUES ($1, $2)
                       RETURNING *;
                   `,
-        [user.email, user.hash]);
+          [user.email, user.hash]);
       })
     );
-      
+
     const user = users[0].rows[0];
 
     await Promise.all(
-      animals.map(animal => {
+      categories.map(category => {
         return client.query(`
-                    INSERT INTO animals (name, cool_factor, owner_id)
-                    VALUES ($1, $2, $3);
-                `,
-        [animal.name, animal.cool_factor, user.id]);
+                      INSERT INTO categories (category)
+                      VALUES ($1);
+                  `,
+          [category.category]);
       })
     );
-    
+
+    await Promise.all(
+      board_games.map(game => {
+        return client.query(`
+                    INSERT INTO board_games (name, max_players, min_players, expansion, category_id, owner_id)
+                    VALUES ($1, $2, $3, $4, $5, $6);
+                `,
+          [game.name, game.max_players, game.min_players, game.expansion, game.category_id, user.id]);
+      })
+    );
+
 
     console.log('seed data load complete', getEmoji(), getEmoji(), getEmoji());
   }
-  catch(err) {
+  catch (err) {
     console.log(err);
   }
   finally {
     client.end();
   }
-    
+
 }
