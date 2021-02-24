@@ -29,8 +29,7 @@ async function run() {
       categories.map(category => {
         return client.query(`
                       INSERT INTO categories (category)
-                      VALUES ($1)
-                      RETURNING *;
+                      VALUES ($1);
                   `,
           [category.category]);
       })

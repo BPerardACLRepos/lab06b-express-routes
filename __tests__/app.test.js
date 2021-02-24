@@ -39,7 +39,7 @@ describe('app routes', () => {
           max_players: 4,
           min_players: 2,
           expansion: false,
-          category: 'tile',
+          category_id: '1',
           owner_id: 1,
           id: 1,
         },
@@ -48,7 +48,7 @@ describe('app routes', () => {
           max_players: 4,
           min_players: 3,
           expansion: true,
-          category: 'trading',
+          category_id: '2',
           owner_id: 1,
           id: 2,
         },
@@ -57,7 +57,7 @@ describe('app routes', () => {
           max_players: 8,
           min_players: 2,
           expansion: false,
-          category: 'word',
+          category_id: '3',
           owner_id: 1,
           id: 3,
         },
@@ -78,7 +78,7 @@ describe('app routes', () => {
         max_players: 8,
         min_players: 2,
         expansion: false,
-        category: 'word',
+        category_id: '3',
         owner_id: 1,
         id: 3,
       }
@@ -98,7 +98,7 @@ describe('app routes', () => {
         max_players: 8,
         min_players: 2,
         expansion: false,
-        category: 'word',
+        category_id: '3',
         owner_id: 1,
         id: 3,
       }
@@ -118,7 +118,7 @@ describe('app routes', () => {
         max_players: 8,
         min_players: 2,
         expansion: false,
-        category: 'word',
+        category_id: '3',
       };
 
       const expectation = {
@@ -152,7 +152,7 @@ describe('app routes', () => {
         max_players: 42,
         min_players: 3,
         expansion: false,
-        category: 'trickery',
+        category: '7',
       };
 
       const expectation = {
