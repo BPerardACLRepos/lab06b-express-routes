@@ -42,6 +42,7 @@ describe('app routes', () => {
           category_id: 1,
           owner_id: 1,
           id: 1,
+          category: 'tile',
         },
         {
           name: 'Catan: Seafarers',
@@ -51,6 +52,7 @@ describe('app routes', () => {
           category_id: 2,
           owner_id: 1,
           id: 2,
+          category: 'trading',
         },
         {
           name: 'Codenames',
@@ -60,6 +62,7 @@ describe('app routes', () => {
           category_id: 3,
           owner_id: 1,
           id: 3,
+          category: 'word',
         },
       ];
 
@@ -81,6 +84,7 @@ describe('app routes', () => {
         category_id: 3,
         owner_id: 1,
         id: 3,
+        category: 'word',
       }
 
       const data = await fakeRequest(app)
@@ -119,6 +123,7 @@ describe('app routes', () => {
         min_players: 2,
         expansion: false,
         category_id: 3,
+        category: 'word',
       };
 
       const expectation = {
@@ -153,6 +158,7 @@ describe('app routes', () => {
         min_players: 3,
         expansion: false,
         category_id: 7,
+        category: 'trickery',
       };
 
       const expectation = {
@@ -169,6 +175,47 @@ describe('app routes', () => {
 
       const data = await fakeRequest(app)
         .get('/board_games/2')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+    test('returns board_games', async () => {
+
+      const expectation = [
+        {
+          category: 'tile',
+          id: 1,
+        },
+        {
+          category: 'trading',
+          id: 2,
+        },
+        {
+          category: 'word',
+          id: 3,
+        },
+        {
+          category: 'strategy',
+          id: 4,
+        },
+        {
+          category: 'co-op',
+          id: 5,
+        },
+        {
+          category: 'trivia',
+          id: 6,
+        },
+        {
+          category: 'trickery',
+          id: 7,
+        },
+      ];
+
+      const data = await fakeRequest(app)
+        .get('/categories')
         .expect('Content-Type', /json/)
         .expect(200);
 
