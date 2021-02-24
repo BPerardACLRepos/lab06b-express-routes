@@ -1,5 +1,4 @@
 const client = require('../lib/client');
-// import our seed data:
 const board_games = require('./board-games.js');
 const categories = require('./categories.js');
 const usersData = require('./users.js');

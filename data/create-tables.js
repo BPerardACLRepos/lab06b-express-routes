@@ -19,7 +19,7 @@ async function run() {
                 );
                 CREATE TABLE categories (
                   id SERIAL PRIMARY KEY,
-                  category VARCHAR(256) NOT NULL,
+                  category VARCHAR(512) NOT NULL
                 );           
                 CREATE TABLE board_games (
                   id SERIAL PRIMARY KEY NOT NULL,
